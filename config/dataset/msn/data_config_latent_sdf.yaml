@@ -1,0 +1,25 @@
+# Dataset settings
+# `root_dir` should point to a directory of preprocessed MedShapeNet SDF volumes
+# (organized as `<class_name>/<sample_id>.npy`, each a 64^3 SDF grid).
+root_dir: ???
+name: 'msn_zeroshot'
+roi_x: 64
+roi_y: 64
+roi_z: 64
+diffusion_img_size: 8
+diffusion_depth_size: 8
+
+# Dataloader
+num_workers: 8
+
+# Training
+batch_size: 12
+
+# Sampling
+minibatch_size: 4
+
+# Text-conditioning embeddings
+# A JSON mapping `class_name -> List[float]` of length `cond_dim`.
+# See `data_preproc/README.md` for the expected format.
+cond_dim: 5120
+text_embedding_file: './data_preproc/text_embeddings.json'

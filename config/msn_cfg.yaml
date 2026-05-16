@@ -1,0 +1,4 @@
+defaults:
+  - dataset: msn/data_config_latent_sdf 
+  - model: msn_model
+  - vae: pvqvae

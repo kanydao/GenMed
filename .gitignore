@@ -1,0 +1,42 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Hydra outputs
+outputs/
+multirun/
+
+# Experiment artifacts
+EXP/
+runs/
+samples/
+output/
+pretrained_models/
+*.pth
+*.ckpt
+*.pt
+
+# Logging
+wandb/
+*.log
+
+# Data
+data/
+data_preproc/text_embeddings.json

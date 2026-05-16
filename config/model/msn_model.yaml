@@ -1,0 +1,50 @@
+# GPU
+gpus: 0
+
+# Model
+diffusion_num_channels: 8
+diffusion_dim: 8
+out_dim: 8
+dim_mults: [1, 2, 4, 8]
+denoising_fn: Unet3DMoE
+use_bert_text_cond: True
+
+# Training
+train_lr: 1.0e-3
+save_and_sample_every: 2000
+train_num_steps: 60001
+gradient_accumulate_every: 2
+timesteps: 50
+loss_type: l1
+ema_decay: 0.995
+amp: False
+
+# Mask-conditioning / mask-guidance
+use_mask_cond: False
+use_mask_guide: True
+cond_num: 3
+
+use_oneplane: False
+use_triplane: True
+use_multiplane: True
+use_broken: True
+oneplane_weight: 1
+triplane_weight: 1
+multiplane_weight: 1
+broken_weight: 1
+
+# Training output
+results_folder: ./runs
+results_folder_postfix: 'genmed'
+load_milestone: False
+
+# Sampling
+output_dir: ./samples
+checkpoint_for_sample: ???
+
+# Training visualization
+num_test_vis: 6
+
+# Weights & Biases (set use_wandb=True and export WANDB_API_KEY to enable)
+use_wandb: False
+wandb_project: GenMed
