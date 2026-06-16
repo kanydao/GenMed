@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GenMed: A Pairwise Generative Reformulation of Medical Diagnostic Tasks</title>
+  <meta name="description" content="GenMed reformulates discriminative medical tasks as a generative model of the joint distribution P(X,Y), turning inference into test-time output optimization for segmentation and 3D shape completion." />
+
+  <!-- Social preview -->
+  <meta property="og:title" content="GenMed: A Pairwise Generative Reformulation of Medical Diagnostic Tasks" />
+  <meta property="og:description" content="One diffusion model of P(X,Y), guided at test time — robust segmentation and shape completion across modalities, few-shot, degraded and zero-shot settings, with no retraining." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="static/images/teaser_tasks.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__brand">Gen<span>Med</span></div>
+      <div class="nav__links">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#segmentation">Segmentation</a>
+        <a href="#completion">Shape Completion</a>
+        <a href="#compare">3D Compare</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#pipeline">Pipeline</a>
+        <a href="#bibtex">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <div class="container">
+      <span class="venue">Generative Medical AI &middot; Preprint 2026</span>
+      <h1 class="title">GenMed: A Pairwise Generative Reformulation<br />of Medical Diagnostic Tasks</h1>
+      <p class="subtitle">One diffusion model of the joint distribution <em>P(X,&nbsp;Y)</em>, steered at test time — turning rigid input&rarr;output prediction into flexible, training-free output optimization.</p>
+
+      <div class="authors">
+        <a href="#">Hantao Zhang</a><sup>1,&lowast;</sup><span class="sep">, </span>
+        <a href="#">Weidong Guo</a><sup>2,&lowast;</sup><span class="sep">, </span>
+        <a href="#">Yuhe Liu</a><sup>3,&lowast;</sup><span class="sep">, </span>
+        <a href="#">Jiancheng Yang</a><sup>4</sup><span class="sep">, </span>
+        <a href="#">Sathvik Bhagavan</a><sup>1</sup><span class="sep">, </span>
+        <a href="#">Mingda Xu</a><sup>1</sup><span class="sep">, </span>
+        <a href="#">Danli Shi</a><sup>5</sup><span class="sep">, </span>
+        <a href="mailto:pascal.fua@epfl.ch">Pascal Fua</a><sup>1,&#9993;</sup>
+      </div>
+      <p class="eq"><sup>&lowast;</sup>Equal contribution &nbsp;&middot;&nbsp; <sup>&#9993;</sup>Corresponding author &nbsp;&middot;&nbsp; <em>Fellow, IEEE</em></p>
+      <p class="affil">
+        <sup>1</sup>CVLab, EPFL &nbsp;&middot;&nbsp;
+        <sup>2</sup>Fudan University &nbsp;&middot;&nbsp;
+        <sup>3</sup>Beihang University &nbsp;&middot;&nbsp;
+        <sup>4</sup>ELLIS Institute Finland &amp; Aalto University &nbsp;&middot;&nbsp;
+        <sup>5</sup>The Hong Kong Polytechnic University
+      </p>
+
+      <div class="links">
+        <a class="btn" href="https://arxiv.org/pdf/2605.10645" target="_blank" rel="noopener">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          Paper
+        </a>
+        <a class="btn btn--ghost" href="https://arxiv.org/abs/2605.10645" target="_blank" rel="noopener"><span class="ic">&#9744;</span> arXiv</a>
+        <a class="btn btn--ghost" href="https://github.com/kanydao/GenMed" target="_blank" rel="noopener">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+          Code
+        </a>
+        <a class="btn btn--soon">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"/><path d="M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/></svg>
+          Dataset <span class="tag">soon</span>
+        </a>
+        <a class="btn btn--ghost" href="#bibtex">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>
+          BibTeX
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== TEASER ===================== -->
+  <section style="padding-top: 18px;">
+    <div class="container">
+      <figure class="fig fig--zoom">
+        <img src="static/images/teaser_tasks.png" alt="A single generative model for diverse medical tasks: 3D image segmentation, degraded-input segmentation, and 3D shape completion." />
+        <figcaption><b>A single generative model for diverse medical tasks.</b> Rather than learning a separate discriminative map <em>P(Y|X)</em> per task, GenMed models the joint distribution <em>P(X,&nbsp;Y)</em> once and enforces input consistency through constraint-guided sampling at inference — covering standard, zero-shot cross-modality, few-shot and degraded-input segmentation, as well as shape completion from single-, multi-, tri-plane, partial and noisy cues.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== ABSTRACT ===================== -->
+  <section id="abstract" class="section--soft">
+    <div class="container">
+      <p class="eyebrow">Abstract</p>
+      <h2 class="h2">From discriminative mapping to a guided generative process</h2>
+      <div class="prose">
+        <p>Data-driven medical AI is traditionally framed as a <strong>discriminative</strong> mapping from an input <em>X</em> to an output <em>Y</em> via a learned function <em>f</em> — a formulation that generalizes poorly across the heterogeneous data and modalities of real clinical settings. We propose a fundamentally different, <strong>generative</strong> paradigm: we model the <strong>joint distribution <em>P(X,&nbsp;Y)</em></strong> with a diffusion model and reframe inference as a <strong>test-time output optimization</strong> problem.</p>
+        <p>By guiding the generative process to match observed inputs, GenMed enables flexible, gradient-based conditioning at inference time — <strong>without architectural changes or retraining</strong> — and naturally supports arbitrary, previously unseen combinations of observations. Extensive experiments demonstrate strong performance on standard and cross-modality segmentation, few-shot segmentation with only 2 or 4 training samples, degraded-input segmentation, shape completion from sparse and partial observations, and zero-shot transfer to a new domain.</p>
+        <p>To support these evaluations, we curated and released a <strong>large-scale text&ndash;shape dataset</strong> derived from MedShapeNet. Our results highlight the versatility of generative joint modeling as a foundation for reusable, task-agnostic medical AI systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HIGHLIGHT STATS ===================== -->
+  <section>
+    <div class="container">
+      <div class="stats">
+        <div class="stat">
+          <div class="stat__num">85.4</div>
+          <div class="stat__lbl">Avg. Dice on standard 3D segmentation (best vs. nnU-Net, SwinUNETR)</div>
+        </div>
+        <div class="stat">
+          <div class="stat__num"><span class="plus">+</span>24.6</div>
+          <div class="stat__lbl">Dice gain on zero-shot CT&rarr;MRI segmentation (59.9 vs. 35.3)</div>
+        </div>
+        <div class="stat">
+          <div class="stat__num">77.7</div>
+          <div class="stat__lbl">Dice with only 2 training samples (2-shot CT), vs. 47.0 baseline</div>
+        </div>
+        <div class="stat">
+          <div class="stat__num">68.7<small>k</small></div>
+          <div class="stat__lbl">Samples across 139 categories in the released text&ndash;shape dataset</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== METHOD ===================== -->
+  <section id="method" class="section--soft">
+    <div class="container">
+      <p class="eyebrow">Method</p>
+      <h2 class="h2">Pairwise diffusion, guided at test time</h2>
+      <p class="lead">GenMed trains an unconditional diffusion model over data pairs <em>(X,&nbsp;Y)</em>. At inference, a known observation <em>X<sup>&lowast;</sup></em> guides sampling toward a consistent pair <em>(X&prime;,&nbsp;Y&prime;)</em> with <em>X&prime;&nbsp;&asymp;&nbsp;X<sup>&lowast;</sup></em> — so the model is trained once and conditioned on any signal afterwards.</p>
+
+      <figure class="fig fig--zoom">
+        <img src="static/images/architecture.png" alt="GenMed architecture: a diffusion model over the joint latent space, with inference-time guidance from the observed part." />
+        <figcaption><b>GenMed architecture.</b> Training learns to denoise samples from <em>P(X,&nbsp;Y)</em> in either explicit or latent space. At inference, the known condition <em>X<sup>&lowast;</sup></em> explicitly or implicitly guides the sampling trajectory so the generated output satisfies the constraint <em>X<sub>0</sub>&nbsp;&asymp;&nbsp;X<sup>&lowast;</sup></em>.</figcaption>
+      </figure>
+
+      <div class="features" style="margin-top: 34px;">
+        <div class="feature">
+          <span class="kicker">P(X,&nbsp;Y)</span>
+          <h3>Joint, not conditional</h3>
+          <p>Modeling the joint distribution removes the need for a dedicated input-conditioning encoder, so a single model serves many tasks and any combination of observations.</p>
+        </div>
+        <div class="feature">
+          <span class="kicker">&nabla;&#8202;&#8466;</span>
+          <h3>Guidance, not retraining</h3>
+          <p>A soft loss steers <em>both</em> paired variables together (<em>GenMed-Full</em>), avoiding the semantic gap of naive guidance and adapting to new inputs purely at test time.</p>
+        </div>
+        <div class="feature">
+          <span class="kicker">&#9651;</span>
+          <h3>Explicit &amp; latent space</h3>
+          <p>Works directly on voxels for segmentation, and on encoded latents for 3D shapes — deferring decoding to the end of the denoising trajectory for stable shape completion.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SEGMENTATION ===================== -->
+  <section id="segmentation">
+    <div class="container">
+      <p class="eyebrow">Results &middot; Segmentation</p>
+      <h2 class="h2">Robust where discriminative models break</h2>
+      <p class="lead">A model trained on full 3D volumes transfers — with no retraining — to a different modality, to as few as 2&ndash;4 training samples, and to severely degraded inputs (low resolution or missing slices).</p>
+
+      <div class="table-wrap">
+        <table class="res">
+          <caption>Average Dice (&uarr;) across five cardiac structures. Baselines vs. GenMed under increasingly hard settings. &mdash; = not reported.</caption>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Standard&nbsp;(TS)</th>
+              <th>CT&nbsp;&rarr;&nbsp;CT</th>
+              <th>Zero-shot CT&rarr;MRI</th>
+              <th>2-shot&nbsp;CT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th>nnU-Net</th><td>83.7</td><td>62.0</td><td>35.3</td><td>47.0</td></tr>
+            <tr><th>SwinUNETR</th><td>81.4</td><td>59.8</td><td>32.3</td><td>&mdash;</td></tr>
+            <tr><th>Input-Cond. Diffusion</th><td>81.7</td><td>55.0</td><td>31.9</td><td>41.2</td></tr>
+            <tr class="ours"><th>GenMed-Full (Ours)</th><td class="best">85.4</td><td class="best">83.8</td><td class="best">59.9</td><td class="best">77.7</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tnote">Datasets: TotalSegmentator (TS) and MM-WHS. The gap widens dramatically under distribution shift — cross-modality and few-shot — where conditional models lose most of their accuracy.</p>
+
+      <figure class="fig fig--zoom" style="margin-top: 34px;">
+        <img src="static/images/degraded_segmentation.png" alt="Segmentation under degraded inputs: low resolution, missing frames, and few slices." />
+        <figcaption><b>Segmentation under degraded inputs.</b> Across low-resolution volumes, missing middle slices, and only a handful of slices, GenMed-Full is far less affected than nnU-Net, SwinUNETR and a diffusion-atlas baseline.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== SHAPE COMPLETION ===================== -->
+  <section id="completion" class="section--soft">
+    <div class="container">
+      <p class="eyebrow">Results &middot; Shape Completion</p>
+      <h2 class="h2">One shape prior, many kinds of partial evidence</h2>
+      <p class="lead">A single model trained only on complete shapes completes anatomy from diverse, previously unseen observations — single-, multi-, and tri-plane cross-sections, broken regions, and stochastically sampled corruptions.</p>
+
+      <figure class="fig fig--zoom">
+        <img src="static/images/shape_completion.png" alt="Shape completion under different visual prompts compared to input conditioning." />
+        <figcaption><b>Completion under different visual prompts.</b> Compared with input conditioning, GenMed produces completions that align more closely with the blue ground-truth boundaries across organs and tissues of increasing structural complexity — eyeball, urinary bladder, heart and bone.</figcaption>
+      </figure>
+
+      <div class="grid-2" style="margin-top: 34px; align-items: start;">
+        <div>
+          <div class="table-wrap">
+            <table class="res">
+              <caption>Text-only shape generation on MedShapeNet.</caption>
+              <thead>
+                <tr><th>Method</th><th>MMD&nbsp;&darr;</th><th>COV&nbsp;&uarr;</th><th>1-NNA&nbsp;&darr;</th></tr>
+              </thead>
+              <tbody>
+                <tr><th>SDFusion</th><td>2.07</td><td>52.33</td><td>70.44</td></tr>
+                <tr><th>Diffusion-SDF</th><td>3.19</td><td>41.05</td><td>83.49</td></tr>
+                <tr><th>OctFusion</th><td>8.75</td><td>24.14</td><td>87.56</td></tr>
+                <tr class="ours"><th>GenMed-Base (Ours)</th><td class="best">1.16</td><td class="best">52.80</td><td class="best">66.24</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="tnote">A medical-tailored SDF backbone yields higher-fidelity shapes and a generated distribution closer to the real one.</p>
+        </div>
+        <div class="prose" style="max-width:none;">
+          <p>Beyond generation, GenMed turns the same prior into a <strong>completion engine</strong>. On the hardest multi-plane prompts it reaches <strong>75.9 Dice</strong> and the lowest worst-case error (<strong>UHD 10.2</strong>), surpassing input-conditioning baselines.</p>
+          <p>A notable finding: for these dense, voxel-level geometric prompts, classifier-free guidance variants <em>underperform</em> direct conditioning — yet GenMed's pairwise formulation adapts naturally, recovering finer boundary detail even when <strong>only a single slice</strong> is available.</p>
+        </div>
+      </div>
+
+      <figure class="fig fig--zoom" style="margin-top: 34px;">
+        <img src="static/images/zeroshot_eyeball.png" alt="Zero-shot shape completion on a 3D eyeball dataset under different defect prompts." />
+        <figcaption><b>Zero-shot transfer to a new domain.</b> Applied without any fine-tuning to an unseen 3D eyeball dataset, GenMed still aligns more closely with the ground truth than input conditioning across broken, one-plane, tri-plane and multi-plane prompts.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== 3D COMPARISON (model-viewer) ===================== -->
+  <section id="compare" class="section--soft">
+    <div class="container">
+      <p class="eyebrow">Interactive</p>
+      <h2 class="h2">3D comparison, side by side</h2>
+      <p class="lead">Rotate any mesh &mdash; all columns stay camera-synced. We compare the <b>ground-truth shape</b>, the <b>input conditioning</b> baseline, and <b>GenMed (Ours)</b>, reporting <b>Dice&nbsp;&uarr;</b>, <b>CD&nbsp;&darr;</b> and <b>UHD&nbsp;&darr;</b> vs. ground truth on each method. The <b>input prompt</b> column colour-codes the actual partial observation.</p>
+
+      <div class="seg" id="setPicker"></div>
+      <div class="mv-grid" id="mvGrid"></div>
+
+      <div class="mv-legend">
+        <span><i class="sw" style="background:#e8ae3d"></i> Observed &mdash; given to the model</span>
+        <span><i class="sw" style="background:#5b9adb"></i> Missing / broken-away &mdash; must be inferred</span>
+        <span><i class="sw" style="background:#b25fcc"></i> Redundant / extra &mdash; spurious in the prompt</span>
+      </div>
+      <p class="mv-hint">Drag to rotate &middot; scroll to zoom &middot; meshes are marching-cubes extractions of each model's SDF output; CD/UHD use the paper's metric (&times;100), Dice on the SDF occupancy.</p>
+    </div>
+  </section>
+
+  <!-- ===================== GALLERY (CAROUSEL) ===================== -->
+  <section id="gallery">
+    <div class="container">
+      <p class="eyebrow">Gallery</p>
+      <h2 class="h2">Explore the completions</h2>
+      <p class="lead">Slide through qualitative results &mdash; use the arrows, the dots, swipe, or your keyboard &larr;/&rarr;. Click any panel to enlarge.</p>
+
+      <div class="carousel" id="carousel" aria-roledescription="carousel">
+        <div class="carousel__counter" id="counter">1 / 4</div>
+        <div class="carousel__viewport">
+          <div class="carousel__track" id="track">
+
+            <figure class="slide">
+              <img src="static/images/gallery_prompts.png" alt="Comparison of ground truth, partial prompt, input-conditioning baseline, and GenMed guided result across four prompt types." />
+              <figcaption><b>Guidance vs. input conditioning.</b> For a single organ under <em>broken</em>, <em>one-plane</em>, <em>tri-plane</em> and <em>multi-plane</em> prompts: ground truth, the partial prompt, the conditioning baseline (COND), and GenMed's guided result (GUIDE).</figcaption>
+            </figure>
+
+            <figure class="slide">
+              <img src="static/images/gallery_organs_a.png" alt="Multi-organ shape completion gallery: eyeball, urinary bladder, kidney, celiac trunk, left atrium, heart myocardium, femur, sacrum." />
+              <figcaption><b>Multi-organ completions&nbsp;&mdash;&nbsp;set&nbsp;I.</b> Eyeball, urinary bladder, kidney, celiac trunk, left atrium, heart myocardium, femur and sacrum. Rows: GT &middot; prompt &middot; COND &middot; GUIDE.</figcaption>
+            </figure>
+
+            <figure class="slide">
+              <img src="static/images/gallery_organs_b.png" alt="Multi-organ shape completion gallery: lung lobe, gallbladder, kidney, vessel, chamber, cardiac shell, long bone, flat bone." />
+              <figcaption><b>Multi-organ completions&nbsp;&mdash;&nbsp;set&nbsp;II.</b> Lung lobe, gallbladder, kidney, vessel, chamber, cardiac shell, long bone and flat bone &mdash; spanning compact, hollow, tubular and thin geometries.</figcaption>
+            </figure>
+
+            <figure class="slide">
+              <img src="static/images/gallery_eyeball.png" alt="Zero-shot completion of unseen 3D eyeballs across broken, one-plane, tri-plane, and multi-plane prompts." />
+              <figcaption><b>Zero-shot transfer.</b> Applied to an unseen 3D eyeball domain with no fine-tuning, across all prompt types &mdash; GUIDE tracks the ground-truth boundary more faithfully than the conditioning baseline.</figcaption>
+            </figure>
+
+          </div>
+        </div>
+        <button class="carousel__btn carousel__btn--prev" id="prev" aria-label="Previous slide">&#8249;</button>
+        <button class="carousel__btn carousel__btn--next" id="next" aria-label="Next slide">&#8250;</button>
+      </div>
+      <div class="carousel__dots" id="dots"></div>
+    </div>
+  </section>
+
+  <!-- ===================== UNIFIED PIPELINE ===================== -->
+  <section id="pipeline">
+    <div class="container">
+      <p class="eyebrow">Results &middot; Diagnostic Pipeline</p>
+      <h2 class="h2">Segmentation and completion, end to end</h2>
+      <p class="lead">The same pairwise paradigm chains two stages — segment the raw scan, then complete the shape with the pretrained prior — transforming corrupted imaging directly into geometrically correct anatomy.</p>
+
+      <figure class="fig fig--zoom">
+        <img src="static/images/unified_pipeline.png" alt="Two-stage diagnostic pipeline under different degradations: segmentation, completion, and ground-truth target." />
+        <figcaption><b>Two stages under different degradations.</b> Rows 1&ndash;2 (green) show the first-stage segmentation and the refined output after shape completion; row 3 (blue) is the ground truth. The completion stage corrects incomplete segmentations caused by limited imaging evidence.</figcaption>
+      </figure>
+
+      <div class="stats" style="grid-template-columns: repeat(3,1fr); margin-top: 34px;">
+        <div class="stat"><div class="stat__num"><span class="plus">+</span>13.9</div><div class="stat__lbl">Dice gain from completion &mdash; 4-slice input (KiTS23)</div></div>
+        <div class="stat"><div class="stat__num"><span class="plus">+</span>11.2</div><div class="stat__lbl">Dice gain from completion &mdash; low-resolution input</div></div>
+        <div class="stat"><div class="stat__num"><span class="plus">+</span>4.0</div><div class="stat__lbl">Dice gain from completion &mdash; 8-slice input</div></div>
+      </div>
+      <p class="tnote" style="text-align:center;">The harder the degradation, the more the pretrained shape prior contributes — KiTS23 is independent of the shape-completion training data, so no leakage occurs.</p>
+    </div>
+  </section>
+
+  <!-- ===================== BIBTEX ===================== -->
+  <section id="bibtex" class="section--soft">
+    <div class="container">
+      <p class="eyebrow">Citation</p>
+      <h2 class="h2">BibTeX</h2>
+      <div class="prose" style="max-width: 860px;">
+        <div class="copy-row"><button class="copy-btn" id="copyBib">Copy</button></div>
+        <pre class="bibtex" id="bibtexBlock"><span class="k">@article</span>{zhang2026genmed,
+  <span class="f">title</span>   = {GenMed: A Pairwise Generative Reformulation of Medical Diagnostic Tasks},
+  <span class="f">author</span>  = {Zhang, Hantao and Guo, Weidong and Liu, Yuhe and Yang, Jiancheng and
+             Bhagavan, Sathvik and Xu, Mingda and Shi, Danli and Fua, Pascal},
+  <span class="f">journal</span> = {arXiv preprint arXiv:2605.10645},
+  <span class="f">year</span>    = {2026}
+}</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container">
+      <p>Corresponding author: <a href="mailto:pascal.fua@epfl.ch">pascal.fua@epfl.ch</a></p>
+      <p style="margin-top: 14px;">This page was built with a clean, self-contained design inspired by the
+        <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project-page template,
+        licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+    </div>
+  </footer>
+
+  <!-- lightbox -->
+  <div class="lb" id="lightbox"><img id="lbImg" src="" alt="" /></div>
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+  <script src="static/js/main.js"></script>
+  <script src="static/js/compare.js"></script>
+</body>
+</html>

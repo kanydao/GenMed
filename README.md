@@ -3,6 +3,8 @@
 Reference implementation accompanying the GenMed paper
 ([arXiv:2605.10645](https://arxiv.org/pdf/2605.10645)).
 
+Project page: https://kanydao.github.io/GenMed/
+
 A latent diffusion model for 3D medical SDF generation with mask-prompt
 classifier-free guidance over four prompt types: `triplane`, `oneplane`,
 `broken`, `multiplane`.

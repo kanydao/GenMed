@@ -1,0 +1,140 @@
+[
+  {
+    "id": "kidney_oneplane",
+    "label": "Kidney (right)",
+    "prompt": "oneplane",
+    "promptLabel": "One-plane cross-section",
+    "promptParts": {
+      "match": true,
+      "extra": false,
+      "missing": true
+    },
+    "diceOurs": 0.864,
+    "diceCond": 0.554,
+    "cdOurs": 0.25,
+    "cdCond": 1.25,
+    "uhdOurs": 9.3,
+    "uhdCond": 20.4,
+    "files": {
+      "gt": "kidney_oneplane/gt.glb",
+      "cond": "kidney_oneplane/cond.glb",
+      "ours": "kidney_oneplane/ours.glb",
+      "prompt": "kidney_oneplane/prompt.glb"
+    }
+  },
+  {
+    "id": "bladder_broken",
+    "label": "Urinary bladder",
+    "prompt": "broken",
+    "promptLabel": "Broken / missing region",
+    "promptParts": {
+      "match": true,
+      "extra": true,
+      "missing": true
+    },
+    "diceOurs": 0.984,
+    "diceCond": 0.92,
+    "cdOurs": 0.12,
+    "cdCond": 0.2,
+    "uhdOurs": 10.4,
+    "uhdCond": 7.5,
+    "files": {
+      "gt": "bladder_broken/gt.glb",
+      "cond": "bladder_broken/cond.glb",
+      "ours": "bladder_broken/ours.glb",
+      "prompt": "bladder_broken/prompt.glb"
+    }
+  },
+  {
+    "id": "gallbladder_triplane",
+    "label": "Gallbladder",
+    "prompt": "triplane",
+    "promptLabel": "Tri-plane cross-section",
+    "promptParts": {
+      "match": true,
+      "extra": false,
+      "missing": true
+    },
+    "diceOurs": 0.934,
+    "diceCond": 0.719,
+    "cdOurs": 0.17,
+    "cdCond": 0.9,
+    "uhdOurs": 11.5,
+    "uhdCond": 24.5,
+    "files": {
+      "gt": "gallbladder_triplane/gt.glb",
+      "cond": "gallbladder_triplane/cond.glb",
+      "ours": "gallbladder_triplane/ours.glb",
+      "prompt": "gallbladder_triplane/prompt.glb"
+    }
+  },
+  {
+    "id": "myocardium_broken",
+    "label": "Heart myocardium",
+    "prompt": "broken",
+    "promptLabel": "Broken / missing region",
+    "promptParts": {
+      "match": true,
+      "extra": true,
+      "missing": false
+    },
+    "diceOurs": 0.961,
+    "diceCond": 0.858,
+    "cdOurs": 0.16,
+    "cdCond": 0.23,
+    "uhdOurs": 5.1,
+    "uhdCond": 7.7,
+    "files": {
+      "gt": "myocardium_broken/gt.glb",
+      "cond": "myocardium_broken/cond.glb",
+      "ours": "myocardium_broken/ours.glb",
+      "prompt": "myocardium_broken/prompt.glb"
+    }
+  },
+  {
+    "id": "eyeball_multiplane",
+    "label": "Eyeball (right)",
+    "prompt": "multiplane",
+    "promptLabel": "Multi-plane slices",
+    "promptParts": {
+      "match": true,
+      "extra": false,
+      "missing": true
+    },
+    "diceOurs": 0.984,
+    "diceCond": 0.938,
+    "cdOurs": 0.16,
+    "cdCond": 0.24,
+    "uhdOurs": 5.5,
+    "uhdCond": 6.9,
+    "files": {
+      "gt": "eyeball_multiplane/gt.glb",
+      "cond": "eyeball_multiplane/cond.glb",
+      "ours": "eyeball_multiplane/ours.glb",
+      "prompt": "eyeball_multiplane/prompt.glb"
+    }
+  },
+  {
+    "id": "femur_broken",
+    "label": "Femur (right)",
+    "prompt": "broken",
+    "promptLabel": "Broken / missing region",
+    "promptParts": {
+      "match": true,
+      "extra": true,
+      "missing": true
+    },
+    "diceOurs": 0.969,
+    "diceCond": 0.911,
+    "cdOurs": 0.14,
+    "cdCond": 0.21,
+    "uhdOurs": 15.3,
+    "uhdCond": 14.5,
+    "files": {
+      "gt": "femur_broken/gt.glb",
+      "cond": "femur_broken/cond.glb",
+      "ours": "femur_broken/ours.glb",
+      "prompt": "femur_broken/prompt.glb"
+    }
+  }
+]
