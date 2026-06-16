@@ -286,17 +286,17 @@
       <div class="subsection" id="compare">
       <p class="eyebrow">Interactive</p>
       <h3 class="subhead">3D comparison, side by side</h3>
-      <p class="lead">Rotate any mesh &mdash; all columns stay camera-synced. We compare the <b>ground-truth shape</b>, the <b>input conditioning</b> baseline, and <b>GenMed (Ours)</b>, reporting <b>Dice&nbsp;&uarr;</b>, <b>CD&nbsp;&darr;</b> and <b>UHD&nbsp;&darr;</b> vs. ground truth on each method. The <b>input prompt</b> column colour-codes the actual partial observation.</p>
+      <p class="lead">Rotate any mesh &mdash; all columns stay camera-synced. The updated cases include smoothed broken-organ prompts for pancreas, pulmonary artery, and adrenal gland, alongside gallbladder, eyeball, and kidney examples. We compare the <b>ground-truth shape</b>, the <b>input conditioning</b> baseline, and <b>GenMed (Ours)</b>, reporting <b>Dice&nbsp;&uarr;</b>, <b>CD&nbsp;&darr;</b> and <b>UHD&nbsp;&darr;</b> vs. ground truth on each method. Plane prompts render the observed cutting planes through a faint full-shape ghost.</p>
 
       <div class="seg" id="setPicker"></div>
       <div class="mv-grid" id="mvGrid"></div>
 
       <div class="mv-legend">
-        <span><i class="sw" style="background:#e8ae3d"></i> Observed &mdash; given to the model</span>
-        <span><i class="sw" style="background:#5b9adb"></i> Missing / broken-away &mdash; must be inferred</span>
+        <span><i class="sw" style="background:#e8ae3d"></i> Observed &mdash; given to the model (cutting plane / region)</span>
+        <span><i class="sw" style="background:#5b9adb"></i> Unobserved &mdash; must be inferred</span>
         <span><i class="sw" style="background:#b25fcc"></i> Redundant / extra &mdash; spurious in the prompt</span>
       </div>
-      <p class="mv-hint">Drag to rotate &middot; scroll to zoom &middot; meshes are marching-cubes extractions of each model's SDF output; CD/UHD use the paper's metric (&times;100), Dice on the SDF occupancy.</p>
+      <p class="mv-hint">Drag to rotate &middot; scroll to zoom &middot; plane prompts show the observed cutting planes through a faint ghost of the full shape; broken prompts show the observed, redundant and unobserved regions. CD/UHD use the paper's metric (&times;100), Dice on the SDF occupancy.</p>
       </div>
     </div>
   </section>

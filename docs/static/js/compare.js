@@ -7,12 +7,12 @@
   // High-Dice cases (mirrors static/models/manifest.json). Metrics vs GT.
   // dice: higher better (occ = SDF<0). cd / uhd: lower better (x100, paper scale).
   var SETS = [
-    { id: "bladder_broken",       label: "Urinary bladder", tag: "Broken",      dice: [0.920, 0.984], cd: [0.20, 0.12], uhd: [7.5, 10.4] },
-    { id: "eyeball_multiplane",   label: "Eyeball (right)", tag: "Multi-plane", dice: [0.938, 0.984], cd: [0.24, 0.16], uhd: [6.9, 5.5] },
-    { id: "femur_broken",         label: "Femur (right)",   tag: "Broken",      dice: [0.911, 0.969], cd: [0.21, 0.14], uhd: [14.5, 15.3] },
-    { id: "myocardium_broken",    label: "Myocardium",      tag: "Broken",      dice: [0.858, 0.961], cd: [0.23, 0.16], uhd: [7.7, 5.1] },
-    { id: "gallbladder_triplane", label: "Gallbladder",     tag: "Tri-plane",   dice: [0.719, 0.934], cd: [0.90, 0.17], uhd: [24.5, 11.5] },
-    { id: "kidney_oneplane",      label: "Kidney (right)",  tag: "One-plane",   dice: [0.554, 0.864], cd: [1.25, 0.25], uhd: [20.4, 9.3] }
+    { id: "pancreas_broken",      label: "Pancreas",         tag: "Broken",      dice: [0.667, 0.836], cd: [0.15, 0.08], uhd: [8.5, 7.0] },
+    { id: "pulmonary_broken",     label: "Pulmonary artery", tag: "Broken",      dice: [0.795, 0.920], cd: [0.14, 0.07], uhd: [6.7, 3.9] },
+    { id: "adrenal_broken",       label: "Adrenal gland",    tag: "Broken",      dice: [0.841, 0.930], cd: [0.14, 0.09], uhd: [7.4, 7.4] },
+    { id: "gallbladder_triplane", label: "Gallbladder",      tag: "Tri-plane",   dice: [0.719, 0.934], cd: [0.90, 0.17], uhd: [24.5, 11.5] },
+    { id: "eyeball_multiplane",   label: "Eyeball (right)",  tag: "Multi-plane", dice: [0.938, 0.984], cd: [0.24, 0.16], uhd: [6.9, 5.5] },
+    { id: "kidney_oneplane",      label: "Kidney (right)",   tag: "One-plane",   dice: [0.554, 0.864], cd: [1.25, 0.25], uhd: [20.4, 9.3] }
   ];
 
   // columns left->right: target, the given input, baseline, ours
@@ -126,12 +126,13 @@
   function fillMetrics(set) {
     METRICS.forEach(function (m) {
       var cond = set[m.key][0], ours = set[m.key][1];
-      var oursWins = m.better === "high" ? ours > cond : ours < cond;
       valEls["cond_" + m.key].textContent = cond.toFixed(m.dp);
       valEls["cond_" + m.key].className = "v";
       var ev = valEls["ours_" + m.key];
       ev.textContent = ours.toFixed(m.dp);
-      ev.className = "v " + (oursWins ? "win" : "lose");
+      var cls = "v";
+      if (ours !== cond) cls += (m.better === "high" ? ours > cond : ours < cond) ? " win" : " lose";
+      ev.className = cls;
     });
   }
 
