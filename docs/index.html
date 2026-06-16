@@ -25,22 +25,21 @@
     <div class="container">
       <div class="nav__brand">Gen<span>Med</span></div>
       <div class="nav__links">
-        <a href="#abstract">Abstract</a>
+        <a href="#summary">Summary</a>
         <a href="#method">Method</a>
+        <a href="#prompts">Prompts</a>
         <a href="#segmentation">Segmentation</a>
         <a href="#completion">Shape Completion</a>
-        <a href="#compare">3D Compare</a>
         <a href="#gallery">Gallery</a>
-        <a href="#pipeline">Pipeline</a>
         <a href="#bibtex">BibTeX</a>
       </div>
     </div>
   </nav>
 
   <!-- ===================== HERO ===================== -->
-  <header class="hero">
+  <header class="hero headline">
     <div class="container">
-      <span class="venue">Generative Medical AI &middot; Preprint 2026</span>
+      <span class="venue">Generative Medical AI &middot; arXiv 2026</span>
       <h1 class="title">GenMed: A Pairwise Generative Reformulation<br />of Medical Diagnostic Tasks</h1>
       <p class="subtitle">One diffusion model of the joint distribution <em>P(X,&nbsp;Y)</em>, steered at test time — turning rigid input&rarr;output prediction into flexible, training-free output optimization.</p>
 
@@ -86,7 +85,7 @@
   </header>
 
   <!-- ===================== TEASER ===================== -->
-  <section style="padding-top: 18px;">
+  <section class="teaser">
     <div class="container">
       <figure class="fig fig--zoom">
         <img src="static/images/teaser_tasks.png" alt="A single generative model for diverse medical tasks: 3D image segmentation, degraded-input segmentation, and 3D shape completion." />
@@ -95,40 +94,53 @@
     </div>
   </section>
 
-  <!-- ===================== ABSTRACT ===================== -->
-  <section id="abstract" class="section--soft">
+  <!-- ===================== SUMMARY + OVERVIEW ===================== -->
+  <section id="summary" class="section--soft">
     <div class="container">
-      <p class="eyebrow">Abstract</p>
-      <h2 class="h2">From discriminative mapping to a guided generative process</h2>
-      <div class="prose">
-        <p>Data-driven medical AI is traditionally framed as a <strong>discriminative</strong> mapping from an input <em>X</em> to an output <em>Y</em> via a learned function <em>f</em> — a formulation that generalizes poorly across the heterogeneous data and modalities of real clinical settings. We propose a fundamentally different, <strong>generative</strong> paradigm: we model the <strong>joint distribution <em>P(X,&nbsp;Y)</em></strong> with a diffusion model and reframe inference as a <strong>test-time output optimization</strong> problem.</p>
-        <p>By guiding the generative process to match observed inputs, GenMed enables flexible, gradient-based conditioning at inference time — <strong>without architectural changes or retraining</strong> — and naturally supports arbitrary, previously unseen combinations of observations. Extensive experiments demonstrate strong performance on standard and cross-modality segmentation, few-shot segmentation with only 2 or 4 training samples, degraded-input segmentation, shape completion from sparse and partial observations, and zero-shot transfer to a new domain.</p>
-        <p>To support these evaluations, we curated and released a <strong>large-scale text&ndash;shape dataset</strong> derived from MedShapeNet. Our results highlight the versatility of generative joint modeling as a foundation for reusable, task-agnostic medical AI systems.</p>
+      <p class="eyebrow">Summary</p>
+      <h2 class="h2">A joint generator for flexible medical inference</h2>
+      <div class="summary-block">
+        <p>GenMed replaces task-specific medical predictors with a generative model of paired variables <em>P(X,&nbsp;Y)</em>. At inference time, the observed input acts as a constraint that steers sampling toward a consistent pair, so the same model can handle standard segmentation, cross-modality transfer, degraded inputs, few-shot settings, and 3D shape completion.</p>
       </div>
-    </div>
-  </section>
 
-  <!-- ===================== HIGHLIGHT STATS ===================== -->
-  <section>
-    <div class="container">
-      <div class="stats">
-        <div class="stat">
-          <div class="stat__num">85.4</div>
-          <div class="stat__lbl">Avg. Dice on standard 3D segmentation (best vs. nnU-Net, SwinUNETR)</div>
-        </div>
-        <div class="stat">
-          <div class="stat__num"><span class="plus">+</span>24.6</div>
-          <div class="stat__lbl">Dice gain on zero-shot CT&rarr;MRI segmentation (59.9 vs. 35.3)</div>
-        </div>
-        <div class="stat">
-          <div class="stat__num">77.7</div>
-          <div class="stat__lbl">Dice with only 2 training samples (2-shot CT), vs. 47.0 baseline</div>
-        </div>
-        <div class="stat">
-          <div class="stat__num">68.7<small>k</small></div>
-          <div class="stat__lbl">Samples across 139 categories in the released text&ndash;shape dataset</div>
-        </div>
+      <div class="metric-strip">
+        <div><b>85.4</b><span>Avg. Dice on standard 3D segmentation</span></div>
+        <div><b>+24.6</b><span>Dice gain on zero-shot CT&rarr;MRI</span></div>
+        <div><b>77.7</b><span>Dice with only 2 CT training samples</span></div>
+        <div><b>68.7k</b><span>Text&ndash;shape samples across 139 categories</span></div>
       </div>
+
+      <div class="overview-grid" aria-label="Page overview">
+        <a class="overview-card" href="#method">
+          <span>01</span>
+          <h3>Pairwise Diffusion</h3>
+          <p>Train once on paired data, then condition through test-time guidance.</p>
+        </a>
+        <a class="overview-card" href="#prompts">
+          <span>02</span>
+          <h3>Mask Prompts</h3>
+          <p>Use one-plane, tri-plane, multi-plane, or broken observations without retraining.</p>
+        </a>
+        <a class="overview-card" href="#segmentation">
+          <span>03</span>
+          <h3>Segmentation</h3>
+          <p>Handle modality shift, few-shot training, and degraded scans.</p>
+        </a>
+        <a class="overview-card" href="#completion">
+          <span>04</span>
+          <h3>Shape Completion</h3>
+          <p>Turn the learned medical shape prior into an interactive completion engine.</p>
+        </a>
+      </div>
+
+      <details class="abstract-details">
+        <summary>Formal abstract</summary>
+        <div class="prose">
+          <p>Data-driven medical AI is traditionally framed as a <strong>discriminative</strong> mapping from an input <em>X</em> to an output <em>Y</em> via a learned function <em>f</em> — a formulation that generalizes poorly across the heterogeneous data and modalities of real clinical settings. We propose a fundamentally different, <strong>generative</strong> paradigm: we model the <strong>joint distribution <em>P(X,&nbsp;Y)</em></strong> with a diffusion model and reframe inference as a <strong>test-time output optimization</strong> problem.</p>
+          <p>By guiding the generative process to match observed inputs, GenMed enables flexible, gradient-based conditioning at inference time — <strong>without architectural changes or retraining</strong> — and naturally supports arbitrary, previously unseen combinations of observations. Extensive experiments demonstrate strong performance on standard and cross-modality segmentation, few-shot segmentation with only 2 or 4 training samples, degraded-input segmentation, shape completion from sparse and partial observations, and zero-shot transfer to a new domain.</p>
+          <p>To support these evaluations, we curated and released a <strong>large-scale text&ndash;shape dataset</strong> derived from MedShapeNet. Our results highlight the versatility of generative joint modeling as a foundation for reusable, task-agnostic medical AI systems.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -161,6 +173,36 @@
           <p>Works directly on voxels for segmentation, and on encoded latents for 3D shapes — deferring decoding to the end of the denoising trajectory for stable shape completion.</p>
         </div>
       </div>
+
+      <div class="subsection" id="pipeline">
+        <h3 class="subhead">Segmentation and completion can be chained</h3>
+        <p class="lead">The same pairwise paradigm supports an end-to-end diagnostic pipeline: segment the raw scan, then complete the shape with the pretrained prior to recover geometrically plausible anatomy under corrupted imaging.</p>
+        <figure class="fig fig--zoom">
+          <img loading="lazy" src="static/images/unified_pipeline.png" alt="Two-stage diagnostic pipeline under different degradations: segmentation, completion, and ground-truth target." />
+          <figcaption><b>Two stages under different degradations.</b> The first stage produces a segmentation from incomplete imaging evidence, and the completion stage restores missing structure with the learned shape prior. The gain is largest when the observation is most degraded: +13.9 Dice for 4-slice KiTS23 inputs and +11.2 Dice for low-resolution inputs.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROMPT GUIDANCE ===================== -->
+  <section id="prompts">
+    <div class="container">
+      <p class="eyebrow">Mask-Prompt Guidance</p>
+      <h2 class="h2">Different observations, one model</h2>
+      <p class="lead">GenMed treats a visual prompt as a constraint on the generated pair rather than as a fixed input channel. This lets the same pretrained prior respond to sparse slices, intersecting planes, missing regions, and noisy partial evidence.</p>
+
+      <div class="prompt-grid">
+        <div class="prompt-card"><span>One-plane</span><p>A single cross-section anchors the anatomy while the prior fills the unobserved volume.</p></div>
+        <div class="prompt-card"><span>Tri-plane</span><p>Three orthogonal slices provide stronger spatial constraints without changing the model.</p></div>
+        <div class="prompt-card"><span>Multi-plane</span><p>Multiple sparse sections guide denser completion while still leaving shape inference to the prior.</p></div>
+        <div class="prompt-card"><span>Broken</span><p>Missing or corrupted regions are treated as partial observations to be reconciled during sampling.</p></div>
+      </div>
+
+      <figure class="fig fig--zoom" style="margin-top: 34px;">
+        <img loading="lazy" src="static/images/gallery_prompts.png" alt="Comparison of ground truth, partial prompt, input-conditioning baseline, and GenMed guided result across four prompt types." />
+        <figcaption><b>Guidance vs. input conditioning.</b> Across broken, one-plane, tri-plane and multi-plane prompts, GenMed uses the observed region as a test-time constraint and recovers shapes that better follow the ground-truth boundary than the input-conditioning baseline.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -194,7 +236,7 @@
       <p class="tnote">Datasets: TotalSegmentator (TS) and MM-WHS. The gap widens dramatically under distribution shift — cross-modality and few-shot — where conditional models lose most of their accuracy.</p>
 
       <figure class="fig fig--zoom" style="margin-top: 34px;">
-        <img src="static/images/degraded_segmentation.png" alt="Segmentation under degraded inputs: low resolution, missing frames, and few slices." />
+        <img loading="lazy" src="static/images/degraded_segmentation.png" alt="Segmentation under degraded inputs: low resolution, missing frames, and few slices." />
         <figcaption><b>Segmentation under degraded inputs.</b> Across low-resolution volumes, missing middle slices, and only a handful of slices, GenMed-Full is far less affected than nnU-Net, SwinUNETR and a diffusion-atlas baseline.</figcaption>
       </figure>
     </div>
@@ -208,7 +250,7 @@
       <p class="lead">A single model trained only on complete shapes completes anatomy from diverse, previously unseen observations — single-, multi-, and tri-plane cross-sections, broken regions, and stochastically sampled corruptions.</p>
 
       <figure class="fig fig--zoom">
-        <img src="static/images/shape_completion.png" alt="Shape completion under different visual prompts compared to input conditioning." />
+        <img loading="lazy" src="static/images/shape_completion.png" alt="Shape completion under different visual prompts compared to input conditioning." />
         <figcaption><b>Completion under different visual prompts.</b> Compared with input conditioning, GenMed produces completions that align more closely with the blue ground-truth boundaries across organs and tissues of increasing structural complexity — eyeball, urinary bladder, heart and bone.</figcaption>
       </figure>
 
@@ -237,17 +279,13 @@
       </div>
 
       <figure class="fig fig--zoom" style="margin-top: 34px;">
-        <img src="static/images/zeroshot_eyeball.png" alt="Zero-shot shape completion on a 3D eyeball dataset under different defect prompts." />
+        <img loading="lazy" src="static/images/zeroshot_eyeball.png" alt="Zero-shot shape completion on a 3D eyeball dataset under different defect prompts." />
         <figcaption><b>Zero-shot transfer to a new domain.</b> Applied without any fine-tuning to an unseen 3D eyeball dataset, GenMed still aligns more closely with the ground truth than input conditioning across broken, one-plane, tri-plane and multi-plane prompts.</figcaption>
       </figure>
-    </div>
-  </section>
 
-  <!-- ===================== 3D COMPARISON (model-viewer) ===================== -->
-  <section id="compare" class="section--soft">
-    <div class="container">
+      <div class="subsection" id="compare">
       <p class="eyebrow">Interactive</p>
-      <h2 class="h2">3D comparison, side by side</h2>
+      <h3 class="subhead">3D comparison, side by side</h3>
       <p class="lead">Rotate any mesh &mdash; all columns stay camera-synced. We compare the <b>ground-truth shape</b>, the <b>input conditioning</b> baseline, and <b>GenMed (Ours)</b>, reporting <b>Dice&nbsp;&uarr;</b>, <b>CD&nbsp;&darr;</b> and <b>UHD&nbsp;&darr;</b> vs. ground truth on each method. The <b>input prompt</b> column colour-codes the actual partial observation.</p>
 
       <div class="seg" id="setPicker"></div>
@@ -259,6 +297,7 @@
         <span><i class="sw" style="background:#b25fcc"></i> Redundant / extra &mdash; spurious in the prompt</span>
       </div>
       <p class="mv-hint">Drag to rotate &middot; scroll to zoom &middot; meshes are marching-cubes extractions of each model's SDF output; CD/UHD use the paper's metric (&times;100), Dice on the SDF occupancy.</p>
+      </div>
     </div>
   </section>
 
@@ -275,22 +314,22 @@
           <div class="carousel__track" id="track">
 
             <figure class="slide">
-              <img src="static/images/gallery_prompts.png" alt="Comparison of ground truth, partial prompt, input-conditioning baseline, and GenMed guided result across four prompt types." />
+              <img loading="lazy" src="static/images/gallery_prompts.png" alt="Comparison of ground truth, partial prompt, input-conditioning baseline, and GenMed guided result across four prompt types." />
               <figcaption><b>Guidance vs. input conditioning.</b> For a single organ under <em>broken</em>, <em>one-plane</em>, <em>tri-plane</em> and <em>multi-plane</em> prompts: ground truth, the partial prompt, the conditioning baseline (COND), and GenMed's guided result (GUIDE).</figcaption>
             </figure>
 
             <figure class="slide">
-              <img src="static/images/gallery_organs_a.png" alt="Multi-organ shape completion gallery: eyeball, urinary bladder, kidney, celiac trunk, left atrium, heart myocardium, femur, sacrum." />
+              <img loading="lazy" src="static/images/gallery_organs_a.png" alt="Multi-organ shape completion gallery: eyeball, urinary bladder, kidney, celiac trunk, left atrium, heart myocardium, femur, sacrum." />
               <figcaption><b>Multi-organ completions&nbsp;&mdash;&nbsp;set&nbsp;I.</b> Eyeball, urinary bladder, kidney, celiac trunk, left atrium, heart myocardium, femur and sacrum. Rows: GT &middot; prompt &middot; COND &middot; GUIDE.</figcaption>
             </figure>
 
             <figure class="slide">
-              <img src="static/images/gallery_organs_b.png" alt="Multi-organ shape completion gallery: lung lobe, gallbladder, kidney, vessel, chamber, cardiac shell, long bone, flat bone." />
+              <img loading="lazy" src="static/images/gallery_organs_b.png" alt="Multi-organ shape completion gallery: lung lobe, gallbladder, kidney, vessel, chamber, cardiac shell, long bone, flat bone." />
               <figcaption><b>Multi-organ completions&nbsp;&mdash;&nbsp;set&nbsp;II.</b> Lung lobe, gallbladder, kidney, vessel, chamber, cardiac shell, long bone and flat bone &mdash; spanning compact, hollow, tubular and thin geometries.</figcaption>
             </figure>
 
             <figure class="slide">
-              <img src="static/images/gallery_eyeball.png" alt="Zero-shot completion of unseen 3D eyeballs across broken, one-plane, tri-plane, and multi-plane prompts." />
+              <img loading="lazy" src="static/images/gallery_eyeball.png" alt="Zero-shot completion of unseen 3D eyeballs across broken, one-plane, tri-plane, and multi-plane prompts." />
               <figcaption><b>Zero-shot transfer.</b> Applied to an unseen 3D eyeball domain with no fine-tuning, across all prompt types &mdash; GUIDE tracks the ground-truth boundary more faithfully than the conditioning baseline.</figcaption>
             </figure>
 
@@ -300,27 +339,6 @@
         <button class="carousel__btn carousel__btn--next" id="next" aria-label="Next slide">&#8250;</button>
       </div>
       <div class="carousel__dots" id="dots"></div>
-    </div>
-  </section>
-
-  <!-- ===================== UNIFIED PIPELINE ===================== -->
-  <section id="pipeline">
-    <div class="container">
-      <p class="eyebrow">Results &middot; Diagnostic Pipeline</p>
-      <h2 class="h2">Segmentation and completion, end to end</h2>
-      <p class="lead">The same pairwise paradigm chains two stages — segment the raw scan, then complete the shape with the pretrained prior — transforming corrupted imaging directly into geometrically correct anatomy.</p>
-
-      <figure class="fig fig--zoom">
-        <img src="static/images/unified_pipeline.png" alt="Two-stage diagnostic pipeline under different degradations: segmentation, completion, and ground-truth target." />
-        <figcaption><b>Two stages under different degradations.</b> Rows 1&ndash;2 (green) show the first-stage segmentation and the refined output after shape completion; row 3 (blue) is the ground truth. The completion stage corrects incomplete segmentations caused by limited imaging evidence.</figcaption>
-      </figure>
-
-      <div class="stats" style="grid-template-columns: repeat(3,1fr); margin-top: 34px;">
-        <div class="stat"><div class="stat__num"><span class="plus">+</span>13.9</div><div class="stat__lbl">Dice gain from completion &mdash; 4-slice input (KiTS23)</div></div>
-        <div class="stat"><div class="stat__num"><span class="plus">+</span>11.2</div><div class="stat__lbl">Dice gain from completion &mdash; low-resolution input</div></div>
-        <div class="stat"><div class="stat__num"><span class="plus">+</span>4.0</div><div class="stat__lbl">Dice gain from completion &mdash; 8-slice input</div></div>
-      </div>
-      <p class="tnote" style="text-align:center;">The harder the degradation, the more the pretrained shape prior contributes — KiTS23 is independent of the shape-completion training data, so no leakage occurs.</p>
     </div>
   </section>
 

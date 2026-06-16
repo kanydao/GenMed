@@ -47,6 +47,7 @@
     col.appendChild(head);
 
     var mv = document.createElement("model-viewer");
+    mv.setAttribute("loading", "lazy");
     mv.setAttribute("camera-controls", "");
     mv.setAttribute("auto-rotate", "");
     mv.setAttribute("auto-rotate-delay", "0");
